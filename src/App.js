@@ -12,7 +12,7 @@ A <button> is used to switch between contrast modes.
 
 Styled using Bulma (https://bulma.io).
 
-- AE 12/02/18
+- AE
 */
 
 import React from 'react';
@@ -21,6 +21,7 @@ import DropDown from './Components/DropDown';
 import SortRadioButton from './Components/SortRadioButton';
 import LabelledInput from './Components/LabelledInput';
 import ToggleButton from './Components/ToggleButton';
+import axios from 'axios';
 
 
 class App extends React.Component {
@@ -39,17 +40,11 @@ class App extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //Get a number of users from the API and store their information in state
-    fetch('https://randomuser.me/api/?results=60')
+    axios.get('https://randomuser.me/api/?results=60')
     .then(response => {
-      if(response.ok) return response.json();
-      throw new Error('Request failed.');
-    })
-    .then(data => {
-
-
-      const users = data.results.map(user => {
+      const users = response.data.results.map(user => {
         return {name: user.name.first,
           image: user.picture.large,
           gender: user.gender,
